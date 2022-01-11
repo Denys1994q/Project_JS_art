@@ -1,2 +1,2 @@
 <?php
-echo var_dump($_FILS);
+echo var_dump($_POST);
