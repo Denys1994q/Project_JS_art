@@ -8,7 +8,8 @@ const forms = (state) => {
     // 3. Сповістити користувача про результат відправки даних 
 
     const form = document.querySelectorAll('form'), // 1. знайшли всі форми 
-          input = document.querySelectorAll('input'); // 3. знайшли всі інпути
+          input = document.querySelectorAll('input'), // 3. знайшли всі інпути
+          upload = document.querySelectorAll('[name="upload"]');
 
     // checkNumInputs('input[name="user_phone"]');
 
@@ -25,6 +26,23 @@ const forms = (state) => {
         designer: 'assets/server.php',
         question: 'assets/question.php'
     }
+
+    const clearInputs = () => { // 3. Очистка інпутів після відправки форми 
+        input.forEach(item => item.value = '');
+        upload.forEach(item => {
+            item.previousElementSibling.textContent = 'Файл не выбран';
+        });
+    }
+
+    upload.forEach(item => { // 3. Для обрізки назви файла, який завантажується 
+        item.addEventListener('input', () => {
+            let dots;
+            const arr = item.files[0].name.split('.');
+            arr[0].length > 6 ? dots = '...' : dots = '.';
+            const name = arr[0].substring(0, 6) + dots + arr[1];
+            item.previousElementSibling.textContent = name;
+        })
+    });
 
     form.forEach(item => { // 2.
         item.addEventListener('submit', (e) => {
@@ -60,10 +78,6 @@ const forms = (state) => {
             let api;
             item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question;
             console.log(api);
-
-            const clearInputs = () => { // 3.
-                input.forEach(item => item.value = '')
-            }
 
             postData(api, formData) // 2.
             .then(res => {

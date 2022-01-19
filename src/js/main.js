@@ -8,6 +8,7 @@ import filterPictures from './modules/filterPictures';
 import picturesSize from './modules/picturesSize';
 import accordion from './modules/accordion';
 import burger from './modules/burger';
+import drop from './modules/drop';
 
 window.addEventListener('DOMContentLoaded', () => { 
     'use strict'
@@ -34,4 +35,5 @@ window.addEventListener('DOMContentLoaded', () => {
     picturesSize('.sizes-block');
     accordion();
     burger('.burger-menu', '.burger');
+    drop();
 });
