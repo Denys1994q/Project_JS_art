@@ -1,6 +1,7 @@
 // import checkNumInputs from './checkNumInputs';
+import {postData} from '../services/requests'
 
-const forms = () => {
+const forms = (state) => {
     // 1. Просто зібрати всі форми 
     // 2. Відправити форми на сервер 
     // - зробити fetch запрос з методом POST 
@@ -24,14 +25,6 @@ const forms = () => {
         designer: 'assets/server.php',
         question: 'assets/question.php'
     }
-
-    const postData = async (url, data) => { // 2.
-        let res = await fetch(url, {
-            method: 'Post',
-            body: data
-        });
-        return await res.text();
-    };
 
     form.forEach(item => { // 2.
         item.addEventListener('submit', (e) => {
@@ -58,6 +51,12 @@ const forms = () => {
             statusMessage.appendChild(textMessage);
 
             const formData = new FormData(item); // 2.
+            if (item.getAttribute('data-calc') === 'end') {
+                for (let key in state) {
+                    formData.append(key, state[key]);
+                }
+            }
+
             let api;
             item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question;
             console.log(api);
@@ -78,12 +77,12 @@ const forms = () => {
             })
             .finally(() => {
                 clearInputs(); // 3.
-                // setTimeout(() => { // 3.
-                //     statusMessage.remove();
-                //     item.style.display = 'block';
-                //     item.classList.remove('fadeOutUp');
-                //     item.classList.remove('fadeInUp');
-                // }, 2200)
+                setTimeout(() => { // 3.
+                    statusMessage.remove();
+                    item.style.display = 'block';
+                    item.classList.remove('fadeOutUp');
+                    item.classList.remove('fadeInUp');
+                }, 2200)
             })
         })
     })

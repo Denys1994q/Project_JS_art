@@ -899,6 +899,12 @@ h4 {
   margin-bottom: 4rem;
   margin-top: 2rem;
 }
+.active-style {
+  color:rgba(178, 80, 188, 0.8);
+  font-weight: 900;
+  text-decoration: none;
+  border: 0;
+}
 .often-questions .accordion-heading span {
   border-bottom: 2px dotted #333;
 }

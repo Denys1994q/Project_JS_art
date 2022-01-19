@@ -1,58 +1,39 @@
 const mask = () => {
     let phoneInputs = document.querySelectorAll('[name="phone"]');
-            // треба форматувати дані, які вводить користувач
-            // якщо не цифри - заміняти на пусті строки 
-            // і підставляти цифри в маску 
-
-        // let getInputNumbersValue = function(input) {
-        //     return input.value.replace(/\D/g, '');
-        // }
-
-        // let onPhoneInput = function(e) {
-        //     let input = e.target;
-        //     let inputNumbersValue = getInputNumbersValue(input);
-            
-        //     console.log(inputNumbersValue);
-        // }
-
-        // phoneInputs.forEach(item => {
-        //     item.addEventListener('input', onPhoneInput);
-        // })
-        let matrix = '+3 80 __ __ ___ __'
         phoneInputs.forEach(item => {
-            item.addEventListener('input', () => {
-                // item.value = item.value.replace(/\D/g, ''); // всі НЕ цифри в на сторінці в інпуті замінено на пусті знаки
-                // let onlyDigitsInput = item.value.replace(/\D/g, ''); // змінна, в якій лише цифри 
+            let i = 0;
+                item.addEventListener('input', () => {
+                    // item.value - це те, що вводить користувач. Але воно має пройти через матрицю і тільки тоді показатися на сторінці 
+                    // item.value.charAt(i++) - показує в item.value не всі символи, а по одному по черзі. тобто, воно по одному передає в матрицю, щоб одна цифра заміняла одну _  
 
-                // item.value - це те, що буде вводиться на сторінці. Тобто, тут можна робити перевірки: якщо вводить не цифру - пуста стрічка. Беремо за основу матрицю і замінюємо в ній значення на ті, які ввів користувач. 
-                // item.value = matrix.replace(/./, function(a) {
-           
-                // });
-                item.value = matrix.replace(/./g, function(a) {
-                    if (/_/.test(a)) {
-                        return 9; // замінило _ на 9
+                    let matrix = '380 (__) ___ __ __'; // 19 символів 
+                    let onlyDigitsInput = item.value.replace(/\D/g, '');  
+                    let def = matrix.replace(/\D/g, '');
+
+                    if (def.length > onlyDigitsInput.length) {
+                        onlyDigitsInput = def;
                     }
-                   
+                    
+                    
+                    item.value = matrix.replace(/./g, function(a) {
+                        if (/[_\d]/.test(a) && i < onlyDigitsInput.length) {
+                            i++;
+                            console.log(1)
+                            return onlyDigitsInput; 
+                        }
+                        // else if (/[_\d]/.test(a) && i > onlyDigitsInput.length) {
+                        //     console.log(2)
+                        //     return 'k';
+                        // }
+                        else {
+                            console.log(3)
+                            return a;
+                        }
+                    })
+                    // console.log(onlyDigitsInput)
                 });
-
-
-            });
-        })
-
-
-        // let matri = '+3 80 __ __ ___ __';
-
-        // let x = matri.replace(/[_]/g, '6')
-        // console.log(x)
-
-
-
-
-
-
-
-
-
+        });
+      
 
 
 

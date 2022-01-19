@@ -1,0 +1,18 @@
+{
+    "size": {
+        "small": 500,
+        "medium": 1000,
+        "big": 1500,
+        "large": 2000
+    },
+    "material": {
+        "first": 500,
+        "second": 1000,
+        "third": 1500
+    },
+    "options": {
+        "gel": 500,
+        "express": 1000,
+        "delivery": 1500
+    }
+}
