@@ -1269,22 +1269,22 @@ h4 {
     display: none;
   }
   .calc .file_upload > div {
-    display: none;
+    display: block;
   }
   .calc .file_upload > button {
-    width: 100%;
+    width: 50%;
   }
   .popup-design .file_upload > div {
-    display: none;
+    display: block;
   }
   .popup-design .file_upload > button {
-    width: 100%;
+    width: 50%;
   }
   .main .file_upload > div {
-    display: none;
+    display: block;
   }
   .main .file_upload > button {
-    width: 100%;
+    width: 50%;
   }
 }
 @media (max-width: 1199px) {

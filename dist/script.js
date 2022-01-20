@@ -4636,8 +4636,16 @@ var calc = function calc(state) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.string.split */ "./node_modules/core-js/modules/es.string.split.js");
+/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+
+
+
 
 
 var drop = function drop() {
@@ -4645,17 +4653,54 @@ var drop = function drop() {
   var fileInputs = document.querySelectorAll('[name="upload"]');
 
   function highlight(item) {
-    item.closest('.file_upload').style.border = '5px solid red';
+    item.closest('.file_upload').style.border = '2px solid red';
+    item.closest('.file_upload').style.backgroundColor = 'orange';
   }
 
   function unhighlight(item) {
     item.closest('.file_upload').style.border = 'none';
+
+    if (item.closest('.calc')) {
+      item.closest('.file_upload').style.backgroundColor = '#fff';
+    } else {
+      item.closest('.file_upload').style.backgroundColor = '#ededed';
+    }
   }
 
   fileInputs.forEach(function (input) {
     input.addEventListener('dragenter', function (e) {
       e.preventDefault();
       highlight(input);
+    });
+    input.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      highlight(input);
+    });
+    input.addEventListener('dragleave', function (e) {
+      e.preventDefault();
+      unhighlight(input);
+    });
+    input.addEventListener('drop', function (e) {
+      e.preventDefault();
+      unhighlight(input);
+      input.files = e.dataTransfer.files; // щоб в інпуті показалася картинка, яку дропнули 
+
+      var t = e.dataTransfer.files;
+      var formData = new FormData(); // 2.
+
+      formData.append('file', input.files[0]);
+      var dots;
+      var arr = input.files[0].name.split('.');
+      arr[0].length > 6 ? dots = '...' : dots = '.';
+      var name = arr[0].substring(0, 6) + dots + arr[1];
+      input.previousElementSibling.textContent = name;
+
+      if (input.classList.contains('without_form')) {
+        Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["postData"])('assets/server.php', formData).then(function (res) {
+          console.log(res);
+          console.log(1);
+        });
+      }
     });
   });
 };
